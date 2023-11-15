@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Detección de cáncer</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <style>
+      #resultado {
+        font-weight:  bold;
+        font-size:  6rem;
+        text-align: center;
+      }
+
+      .image-container {
+          border: 1px solid #ccc;
+          margin-bottom: 110px;
+      }
+      .image-previsualization img{
+        margin-top: 100px;
+        font-weight:  bold;
+        text-align: center;
+      }
+
+      #file-input + label::after {
+        content: none;
+      }
+
+    </style>
+
+  </head>
+  <body>
+    
+    <main>
+      <div class="px-4 py-2 my-2 text-center border-bottom">
+        <h1 class="display-5 fw-bold">Predicción del cáncer de piel</h1>
+        <div class="col-lg-6 mx-auto">
+          <p class="lead mb-0">
+            Este proyecto busca ayudarlo a determinar si un lunar suyo tiene posibilidades de ser cancerígeno.
+            Sin embargo, los resultados aquí presetnados no reemplazan la opinión de un médico especialista.
+            Si tiene dudas, por favor consulte con un médico.
+          </p>
+        </div>
+      </div>
+
+      <div class="b-example-divider"></div>
+
+      <div class="container mt-5">
+          <div class="text-center mt-3">
+            <div id="image-container">
+              <div><i>Seleccione la imagen</i></div>
+                <input type="file" id="file-input" accept="image/*" onchange="loadAndPredict(event)">
+            </div>
+            <div class="text-center mt-3">
+              <div id="image-previsualization"></div>
+            </div>
+            <div class="text-center mt-3">
+              <div id="resultado"></div>
+          </div>
+      </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
+    <script src="fabric.min.js"/></script>
+    <script src="drawing.js"></script>
+
+    <script type="text/javascript">
+
+      var modelo = null;
+
+      async function loadAndPredict(event) {
+        const file = this.event.target.files[0];
+
+        mostrarImagen(URL.createObjectURL(file));
+      
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+      
+        await new Promise(resolve => {
+          reader.onload = resolve;
+        });
+      
+        const img = new Image();
+        img.src = reader.result;
+      
+        await new Promise(resolve => {
+          img.onload = resolve;
+        });
+      
+        const tensor = tf.browser.fromPixels(img).toFloat();
+      
+        const resized = tf.image.resizeBilinear(tensor, [150, 150]);
+
+        const expanded = resized.expandDims();
+
+        const prediccionTensor = modelo.predict(expanded);
+
+        const result = await prediccionTensor.dataSync()[0];
+
+        const resultado = document.getElementById('resultado').innerHTML = result > 0.5 ? 'Cancerígeno' : 'No cancerígeno';
+      }
+      
+      function mostrarImagen(imagenBlob) {
+        const imagenContainer = document.getElementById('image-previsualization');
+    
+        // Crea un elemento de imagen
+        const imagen = document.createElement('img');
+        imagen.src = imagenBlob;
+        imagen.alt = 'Imagen seleccionada';
+    
+        // Agrega la imagen al contenedor
+        imagenContainer.innerHTML = '';
+        imagenContainer.appendChild(imagen);
+      }
+
+      //Cargar modelo
+      (async () => {
+          console.log("Cargando modelo...");
+          modelo = await tf.loadLayersModel("model.json");
+          console.log("Modelo cargado...");
+      })();
+    </script>
+  </body>
+</html>
