@@ -119,11 +119,12 @@
 
       //Cargar modelo
       (async () => {
-          const resultado = document.getElementById('resultado').innerHTML = "Por favor, espere un momento, el modelo está siendo cargado."
+          document.getElementById('resultado').innerHTML = "Por favor, espere un momento, el modelo está siendo cargado."
           document.getElementById('file-input').disabled = true;
           console.log("Cargando modelo...");
           modelo = await tf.loadLayersModel("https://dete110910.github.io/cancer-prediction/model.json");
           console.log("Modelo cargado...");
+          document.getElementById('resultado').innerHTML = ""
           document.getElementById('file-input').disabled = false;
       })();
     </script>
