@@ -1,16 +1,13 @@
-# Números escritos a mano
+# Predicción de lunares cancerígenos
 
-Este código fuente sirve como apoyo para el video de exportación de modelos de Tensorflow a Tensorflow.js, del canal de YouTube [Ringa Tech](https://youtube.com/RingaTech)
-
-Se trata de un clasificador de números escritos, en donde puedes dibujar en el explorador un número del 0 al 9, y al dar clic en predecir intentará decir qué número es, utilizando Tensorflow.js, en base aun modelo entrenado en Python con Tensorflow
+Este proyecto se basa en un detector de lunares cacerígenos. Aquí podrás subir una imagen de un lunar que se vea claramente y el modelo, entrenado en Python con la librería de Tensorflow, tratará de predecir si lo que se ve allí puede ser potencialmente cancerígeno o no.
 
 ## Probar en vivo
-Puedes probar este proyecto en vivo [aquí](https://ringa-tech.com/exportacion/numeros/)
 
 ## Cómo utilizarlo
 
 ### Descargar el repositorio
-Descarga el repositorio donde gustes en tu computadora
+Descarga el repositorio 
 
 ### Inicia un servidor en la carpeta
 Este proyecto utiliza un modelo de Tensorflow.js, el cual para cargarse requiere que el acceso sea por medio de http/https.
@@ -21,7 +18,7 @@ Para eso puedes usar cualquier servidor, pero aquí hay una forma de hacerlo:
 - Ejecuta el comando `python -m http.server 8000`
 - Abre un explorador y ve a http://localhost:8000
 ### Uso
-Dibuja con el mouse o tu dedo en el canvas cuadrado un número del 0 al 9, y da clic en "Predecir". Para limpiar el canvas da clic en "Limpiar".
+Suba una imagen de un lunar en la piel que se vea claramente.
 
 ## Problemas
-Si tienes un problema, regístralo aquí o déjame un comentario en el video de Youtube. Asegúrate de primero revisar la consola de desarrollador de tu explorador para ver si puedes identificar el problema.
+El modelo no se comporta correctamente con imágenes que no tienen una correcta resolución o que no corresponden a fotos de lunares en la piel de una persona.

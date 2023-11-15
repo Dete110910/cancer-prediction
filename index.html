@@ -10,7 +10,7 @@
     <style>
       #resultado {
         font-weight:  bold;
-        font-size:  6rem;
+        font-size:  2rem;
         text-align: center;
       }
 
@@ -101,7 +101,7 @@
 
         const result = await prediccionTensor.dataSync()[0];
 
-        const resultado = document.getElementById('resultado').innerHTML = result > 0.5 ? 'Cancerígeno' : 'No cancerígeno';
+        const resultado = document.getElementById('resultado').innerHTML = result > 0.5 ? 'Posiblemente Cancerígeno' : 'Posiblemente no cancerígeno';
       }
       
       function mostrarImagen(imagenBlob) {
