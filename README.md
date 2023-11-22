@@ -4,6 +4,8 @@ Este proyecto se basa en un detector de lunares cacerígenos. Aquí podrás subi
 
 ## Probar en vivo
 
+Si desea realizar una prueba en vivo de esta aplicación, puede hacerlo a través de este (enlace)[https://dete110910.github.io/cancer-prediction/]
+
 ## Cómo utilizarlo
 
 ### Descargar el repositorio
